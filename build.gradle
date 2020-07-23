@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation("net.dv8tion:JDA:4.2.0_168") {
+        exclude module: 'opus-java'
+    }
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.jcabi:jcabi-manifests:0.7.5'
+}
+
+jar {
+    manifest {
+        attributes("Manifest-Vesrion": "1.0",
+                "Implementation-Title": "Gradle",
+                "Implementation-Version": archiveVersion,
+                "Build-Prefix": "beta",
+                "Build-Version": "1.0",
+                "Build-Suffix": "release",
+                "Created-By": "Danny Piper (djpiper28 on github)",
+                "Main-Class": "io.djpiper28.botmain")
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
